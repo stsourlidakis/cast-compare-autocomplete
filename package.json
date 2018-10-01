@@ -1,0 +1,22 @@
+{
+  "name": "same-actors-autocomplete",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stsourlidakis/same-actors-autocomplete.git"
+  },
+  "author": "Stavros Tsourlidakis <s.tsourlidakis@hotmail.com> (https://stsourlidakis.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stsourlidakis/same-actors-autocomplete/issues"
+  },
+  "homepage": "https://github.com/stsourlidakis/same-actors-autocomplete#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
