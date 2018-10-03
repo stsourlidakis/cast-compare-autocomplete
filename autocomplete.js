@@ -30,7 +30,7 @@ router.get('/', function(req, res){
 		res.json( {error: 'Service unavailable'} );
 		return;
 	}
-	if ( req.query.name<1 || req.query.name>REQUEST_CHAR_LIMIT ){	//check if the search param is within bounds
+	if ( !req.query.name || req.query.name<1 || req.query.name>REQUEST_CHAR_LIMIT ){	//check if the search param exists and is within bounds
 		res.json( {error: 'Invalid string length'} );
 		return;
 	}
