@@ -31,7 +31,8 @@ router.get('/', function(req, res){
 		return;
 	}
 	if ( !req.query.name || req.query.name<1 || req.query.name>REQUEST_CHAR_LIMIT ){	//check if the search param exists and is within bounds
-		res.json( {error: 'Invalid string length'} );
+		res.status(400);
+		res.json( {error: 'Invalid string length or \'name\' parameter missing'} );
 		return;
 	}
 	
