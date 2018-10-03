@@ -30,18 +30,19 @@ router.get('/', function(req, res){
 		res.json( {error: 'Service unavailable'} );
 		return;
 	}
-	if ( req.query.str<1 || req.query.str>REQUEST_CHAR_LIMIT ){	//check if the search param is within bounds
+	if ( req.query.name<1 || req.query.name>REQUEST_CHAR_LIMIT ){	//check if the search param is within bounds
 		res.json( {error: 'Invalid string length'} );
 		return;
 	}
-	const matches = getMatches(req.query.str);
+	
+	const matches = getMatches(req.query.name);
 	res.json(matches);
 });
 
-function getMatches(str){
+function getMatches(name){
 	let matches = [];
-	const escapedStr = str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); //https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript/3561711#3561711
-	const reg = new RegExp(escapedStr, 'i');
+	const escapedName = name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); //https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript/3561711#3561711
+	const reg = new RegExp(escapedName, 'i');
 
 	for ( const person of persons ){
 		if( matches.length === RESULTS_LIMIT ){
