@@ -1,0 +1,8 @@
+{
+	"name": "same-actors-autocomplete",
+	"script": "index.js",
+	"watch": ["./"],
+	"watch_options": {
+		"followSymlinks": false
+	}
+}
