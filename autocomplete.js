@@ -1,63 +1,76 @@
 const fs = require('fs');
 const express = require('express');
-const router = express.Router();
 
 const RESULTS_LIMIT = 5;
-const REQUEST_CHAR_LIMIT = 5;
+const REQUEST_CHAR_LIMIT = 10;
 
-const personsFilepath = './persons.tsv';
+class Autocomplete {
+	constructor(name, filename, charLimit = REQUEST_CHAR_LIMIT, resultsLimit = RESULTS_LIMIT) {
+		this.data = [];
+		this.name = name;
+		this.filename = filename;
+		this.readFile();
 
-let persons;
+		this.charLimit = charLimit;
+		this.resultsLimit = resultsLimit;
 
-fs.readFile(personsFilepath, 'UTF-8', function(err, data){
-	if( err ){
-		console.log(`Error while reading persons file: ${personsFilepath}`, err);
-	} else {
-		persons = data.split('\n').map(person => {
-			const parts = person.split('\t');
-			return {
-				name: parts[0],
-				id: parts[1]
-			};
+		this.router = this.createRouter();
+	}
+
+	readFile(){
+		fs.readFile(this.filename, 'UTF-8', (err, data) => {
+			if( err ){
+				console.log(`Error while reading ${this.name} file: ${this.filename}`, err);
+			} else {
+				this.data = data.split('\n').map(item => {
+					const parts = item.split('\t');
+					return {
+						name: parts[0],
+						id: parts[1]
+					};
+				});
+				console.log(`${this.name} data loaded.`);
+			}
 		});
-		console.log(`Persons loaded.`);
 	}
-});
 
-router.get('/', function(req, res){
-	if( !arePersonsLoaded() ){	//check if the file is loaded in memory
-		res.status(500);
-		res.json( {error: 'Service unavailable'} );
-		return;
+	createRouter(){
+		return express.Router().get('/', (req, res) => {
+			if( !this.dataLoaded() ){	//check if the file is loaded in memory
+				res.status(500);
+				res.json( {error: 'Service unavailable'} );
+				return;
+			}
+			if ( !req.query.name || req.query.name.length<1 || req.query.name.length>this.charLimit ){	//check if the search param exists and is within bounds
+				res.status(400);
+				res.json( {error: 'Invalid string length or \'name\' parameter missing'} );
+				return;
+			}
+
+			const matches = this.getMatches(req.query.name);
+			res.json(matches);
+		});
 	}
-	if ( !req.query.name || req.query.name<1 || req.query.name>REQUEST_CHAR_LIMIT ){	//check if the search param exists and is within bounds
-		res.status(400);
-		res.json( {error: 'Invalid string length or \'name\' parameter missing'} );
-		return;
+
+	dataLoaded(){
+		return this.data.length!==0;
 	}
-	
-	const matches = getMatches(req.query.name);
-	res.json(matches);
-});
 
-function getMatches(name){
-	let matches = [];
-	const escapedName = name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); //https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript/3561711#3561711
-	const reg = new RegExp(escapedName, 'i');
+	getMatches(name){
+		let matches = [];
+		const escapedName = name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); //https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript/3561711#3561711
+		const reg = new RegExp(escapedName, 'i');
 
-	for ( const person of persons ){
-		if( matches.length === RESULTS_LIMIT ){
-			break;
-		} else if ( reg.test(person.name) ){
-			matches.push(person);
+		for ( const item of this.data ){
+			if( matches.length === RESULTS_LIMIT ){
+				break;
+			} else if ( reg.test(item.name) ){
+				matches.push(item);
+			}
 		}
+
+		return matches;
 	}
-
-	return matches;
 }
 
-function arePersonsLoaded(){
-	return ( typeof persons !== 'undefined' && persons.length!==0 );
-}
-
-module.exports = router;
+module.exports = Autocomplete;
