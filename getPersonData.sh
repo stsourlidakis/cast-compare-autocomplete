@@ -9,6 +9,6 @@ echo "Starting data processing"
 
 sed -r 's/^\{"adult":|\}$//g; s/,"id":|,"name":"|","popularity":/\t/g' $filename |
 sort -t$'\t' -rnk4 |
-awk -F"\t" '$1 == "false" { print $3"\t"$2 }' > persons.tsv
+awk -F"\t" '$1 == "false" { print $3"\t"$2 }' > person.tsv
 
-echo "Persons file created"
+echo "Person file created"
