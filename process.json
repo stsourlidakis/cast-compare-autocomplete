@@ -1,5 +1,5 @@
 {
-	"name": "same-actors-autocomplete",
+	"name": "cast-compare-autocomplete",
 	"script": "index.js",
 	"watch": ["./"],
 	"watch_options": {
