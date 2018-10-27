@@ -2,7 +2,7 @@ const fs = require('fs');
 const express = require('express');
 
 const RESULTS_LIMIT = 5;
-const REQUEST_CHAR_LIMIT = 10;
+const REQUEST_CHAR_LIMIT = 30;
 
 class Autocomplete {
 	constructor(name, filename, charLimit = REQUEST_CHAR_LIMIT, resultsLimit = RESULTS_LIMIT) {
