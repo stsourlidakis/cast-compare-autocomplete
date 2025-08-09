@@ -6,6 +6,12 @@ fileUrl="http://files.tmdb.org/p/exports/$filename.gz"
 wget $fileUrl
 gunzip -f "$filename.gz"
 
+# Check if file exists after download and extraction
+if [ ! -f "$filename" ]; then
+    echo "Error: File $filename not found after download/extraction"
+    exit 1
+fi
+
 echo "Starting data processing"
 
 sed -r 's/^\{"adult":|\}$//g; s/,"id":|,"original_title":"|","popularity":|,"video":/\t/g' $filename |
