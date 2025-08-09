@@ -2,6 +2,7 @@
   "name": "cast-compare-autocomplete",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +18,7 @@
   },
   "homepage": "https://github.com/stsourlidakis/same-actors-autocomplete#readme",
   "dependencies": {
-    "cors": "^2.8.4",
-    "express": "^4.16.3"
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
   }
 }

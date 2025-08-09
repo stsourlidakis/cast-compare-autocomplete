@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import cors from 'cors';
+import Autocomplete from './autocomplete.js';
+
 const app = express();
-const cors = require('cors');
-const Autocomplete = require('./Autocomplete');
 const port = 3001;
 
 const person = new Autocomplete('person', 'person.tsv');

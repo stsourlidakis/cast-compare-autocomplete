@@ -1,5 +1,5 @@
-const fs = require('fs');
-const express = require('express');
+import fs from 'fs';
+import express from 'express';
 
 const RESULTS_LIMIT = 5;
 const REQUEST_CHAR_LIMIT = 30;
@@ -73,4 +73,4 @@ class Autocomplete {
 	}
 }
 
-module.exports = Autocomplete;
+export default Autocomplete;
