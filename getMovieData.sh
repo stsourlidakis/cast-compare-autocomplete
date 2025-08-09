@@ -12,3 +12,5 @@ sort -t$'\t' -rnk4 |
 awk -F"\t" '$1 == "false" { print $3"\t"$2 }' > movie.tsv
 
 echo "Movie file created"
+rm $filename
+echo "Downloaded file removed"
